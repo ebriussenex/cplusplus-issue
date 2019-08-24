@@ -43,14 +43,14 @@
 #include <chrono>
 #include <functional>
 
-//enum class TaskStatus {
-//	NEW,
-//	IN_PROGRESS,
-//	TESTING,
-//	DONE
-//};
-//
-//using TasksInfo = std::map<TaskStatus, int>;
+enum class TaskStatus {
+	NEW,
+	IN_PROGRESS,
+	TESTING,
+	DONE
+};
+
+using TasksInfo = std::map<TaskStatus, int>;
 
 class TeamTasks {
 public:
@@ -94,73 +94,72 @@ private:
 };
 
 
-//void PrintTasksInfo(const TasksInfo& tasks_info) {
-//	if (tasks_info.count(TaskStatus::NEW)) {
-//		std::cout << "NEW: " << tasks_info.at(TaskStatus::NEW) << " ";
-//	}
-//	if (tasks_info.count(TaskStatus::IN_PROGRESS)) {
-//		std::cout << "IN_PROGRESS: " << tasks_info.at(TaskStatus::IN_PROGRESS) << " ";
-//	}
-//	if (tasks_info.count(TaskStatus::TESTING)) {
-//		std::cout << "TESTING: " << tasks_info.at(TaskStatus::TESTING) << " ";
-//	}
-//	if (tasks_info.count(TaskStatus::DONE)) {
-//		std::cout << "DONE: " << tasks_info.at(TaskStatus::DONE) << " ";
-//	}
-//}
-//
-//void PrintTasksInfo(const TasksInfo& updated_tasks, const TasksInfo& untouched_tasks) {
-//	std::cout << "Updated: [";
-//	PrintTasksInfo(updated_tasks);
-//	std::cout << "] ";
-//
-//	std::cout << "Untouched: [";
-//	PrintTasksInfo(untouched_tasks);
-//	std::cout << "] ";
-//
-//	std::cout << std::endl;
-//}
+void PrintTasksInfo(const TasksInfo& tasks_info) {
+	if (tasks_info.count(TaskStatus::NEW)) {
+		std::cout << "NEW: " << tasks_info.at(TaskStatus::NEW) << " ";
+	}
+	if (tasks_info.count(TaskStatus::IN_PROGRESS)) {
+		std::cout << "IN_PROGRESS: " << tasks_info.at(TaskStatus::IN_PROGRESS) << " ";
+	}
+	if (tasks_info.count(TaskStatus::TESTING)) {
+		std::cout << "TESTING: " << tasks_info.at(TaskStatus::TESTING) << " ";
+	}
+	if (tasks_info.count(TaskStatus::DONE)) {
+		std::cout << "DONE: " << tasks_info.at(TaskStatus::DONE) << " ";
+	}
+}
+
+void PrintTasksInfo(const TasksInfo& updated_tasks, const TasksInfo& untouched_tasks) {
+	std::cout << "Updated: [";
+	PrintTasksInfo(updated_tasks);
+	std::cout << "] ";
+
+	std::cout << "Untouched: [";
+	PrintTasksInfo(untouched_tasks);
+	std::cout << "] ";
+
+	std::cout << std::endl;
+}
 
 int main() {
-	//TeamTasks tasks;
-	//TasksInfo updated_tasks;
-	//TasksInfo untouched_tasks;
+	TeamTasks tasks;
+	TasksInfo updated_tasks;
+	TasksInfo untouched_tasks;
 
 	///* TEST 1 */
-	//std::cout << "Alice" << std::endl;
+	std::cout << "Alice" << std::endl;
 
-	//for (auto i = 0; i < 5; ++i) {
-	//	tasks.AddNewTask("Alice");
-	//}
-	//tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice", 5);
-	//PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"IN_PROGRESS": 5}, {}]
+	for (auto i = 0; i < 5; ++i) {
+		tasks.AddNewTask("Alice");
+	}
+	tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice", 5);
+	PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"IN_PROGRESS": 5}, {}]
 
-	//tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice", 5);
-	//PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"TESTING": 5}, {}]
+	tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice", 5);
+	PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"TESTING": 5}, {}]
 
-	//tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice", 1);
-	//PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"DONE": 1}, {"TESTING": 4}]
+	tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice", 1);
+	PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"DONE": 1}, {"TESTING": 4}]
 
-	//for (auto i = 0; i < 5; ++i) {
-	//	tasks.AddNewTask("Alice");
-	//}
-	//tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice",
-	//	2);  // [{"IN_PROGRESS": 2}, {"NEW": 3, "TESTING": 4}]
-	//PrintTasksInfo(updated_tasks, untouched_tasks);
+	for (auto i = 0; i < 5; ++i) {
+		tasks.AddNewTask("Alice");
+	}
+	tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice",
+		2);  // [{"IN_PROGRESS": 2}, {"NEW": 3, "TESTING": 4}]
+	PrintTasksInfo(updated_tasks, untouched_tasks);
 
-	//PrintTasksInfo(tasks.GetPersonTasksInfo("Alice"));  // {"NEW": 3, "IN_PROGRESS": 2, "TESTING": 4, "DONE": 1}
-	//std::cout << std::endl;
+	PrintTasksInfo(tasks.GetPersonTasksInfo("Alice"));  // {"NEW": 3, "IN_PROGRESS": 2, "TESTING": 4, "DONE": 1}
+	std::cout << std::endl;
+	tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice", 4);
+	PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"IN_PROGRESS": 3, "TESTING": 1}, {"IN_PROGRESS": 1, "TESTING": 4}]
 
-	//tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Alice", 4);
-	//PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"IN_PROGRESS": 3, "TESTING": 1}, {"IN_PROGRESS": 1, "TESTING": 4}]
-
-	//PrintTasksInfo(tasks.GetPersonTasksInfo("Alice"));  // {"IN_PROGRESS": 4, "TESTING": 5, "DONE": 1}
-	//std::cout << std::endl;
+	PrintTasksInfo(tasks.GetPersonTasksInfo("Alice"));  // {"IN_PROGRESS": 4, "TESTING": 5, "DONE": 1}
+	std::cout << std::endl;
 
 	///* TEST 2 */
-	//std::cout << "\nJack" << std::endl;
+	std::cout << "\nJack" << std::endl;
 
-	//tasks.AddNewTask("Jack");
+	tasks.AddNewTask("Jack");
 
 	//tie(updated_tasks, untouched_tasks) = tasks.PerformPersonTasks("Jack", 1);
 	//PrintTasksInfo(updated_tasks, untouched_tasks);  // [{"IN_PROGRESS": 1}, {}]
