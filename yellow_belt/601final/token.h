@@ -4,6 +4,15 @@
 #include <vector>
 using namespace std;
 
+enum class Comparison {
+	Less,
+	LessOrEqual,
+	Greater,
+	GreaterOrEqual,
+	Equal,
+	NotEqual
+};
+
 enum class TokenType {
   DATE,
   EVENT,
@@ -12,6 +21,11 @@ enum class TokenType {
   COMPARE_OP,
   PAREN_LEFT,
   PAREN_RIGHT,
+};
+
+enum class LogicalOperation {
+	And,
+	Or
 };
 
 struct Token {

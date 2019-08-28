@@ -15,9 +15,12 @@ private:
 	const int day_;
 };
 
-//оператор вывода
+//операторs
 
 std::ostream& operator<<(std::ostream& stream, const Date& date);
+
+bool operator<(Date& lhs, Date& rhs);
+bool operator==(Date& lhs, Date& rhs);
 
 //функция ParseDate
 

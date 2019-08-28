@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <string>
 #include <iomanip>
+#include <vector>
 
 #include "date.h"
 #include "database.h"
@@ -12,7 +13,9 @@
 using namespace std;
 
 string ParseEvent(istream& is) {
-	// Реализуйте эту функцию
+	string line;
+	getline(is, line);
+	return line;
 }
 
 void TestAll();

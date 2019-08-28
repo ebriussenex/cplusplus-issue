@@ -31,9 +31,29 @@ std::ostream& operator<<(std::ostream& stream, const Date& date) {
 	return stream;
 }
 
+bool operator<(Date& lhs, Date& rhs) {
+	if (lhs.GetYear() == rhs.GetYear()) {
+		if (lhs.GetMonth() == rhs.GetMonth()) {
+			return lhs.GetDay() < rhs.GetDay();
+		}
+		return lhs.GetMonth() < rhs.GetMonth();
+	}
+	return lhs.GetYear() < rhs.GetYear();
+}
+
+bool operator==(Date& lhs, Date& rhs) {
+	return (lhs.GetDay() == rhs.GetDay() &&
+		lhs.GetMonth() == rhs.GetMonth() &&
+		lhs.GetYear() == rhs.GetYear());
+}
+
 //функция parseDate
 
 Date ParseDate(std::istream& is)
 {
-	return 0;
+	int year = 0, month = 0, day = 0;
+	if (is >> year && is.ignore(1) && is >> month && is.ignore(1) && is >> day) {
+		return { year, month, day };
+	}
+	return { year, month, day };
 }
