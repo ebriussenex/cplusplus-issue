@@ -3,6 +3,7 @@
 #include <string>
 #include <iomanip>
 #include <vector>
+#include <functional>
 
 #include "date.h"
 #include "database.h"

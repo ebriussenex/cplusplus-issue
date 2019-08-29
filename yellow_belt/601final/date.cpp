@@ -4,7 +4,7 @@
 #include "date.h"
 
 //объявление интерфейса класса
-Date::Date(int year = 0, int month = 0, int day = 0) :
+Date::Date(const int year = 0, const int month = 0, const int day = 0) :
 	year_(year), month_(month), day_(day) {}
 
 int Date::GetMonth() const
@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream& stream, const Date& date) {
 	return stream;
 }
 
-bool operator<(Date& lhs, Date& rhs) {
+bool operator<(const Date& lhs, const Date& rhs) {
 	if (lhs.GetYear() == rhs.GetYear()) {
 		if (lhs.GetMonth() == rhs.GetMonth()) {
 			return lhs.GetDay() < rhs.GetDay();
@@ -41,10 +41,35 @@ bool operator<(Date& lhs, Date& rhs) {
 	return lhs.GetYear() < rhs.GetYear();
 }
 
-bool operator==(Date& lhs, Date& rhs) {
+bool operator<=(const Date& lhs, const Date& rhs)
+{
+	return lhs < rhs || lhs == rhs;
+}
+
+bool operator==(const Date& lhs, const Date& rhs) {
 	return (lhs.GetDay() == rhs.GetDay() &&
 		lhs.GetMonth() == rhs.GetMonth() &&
 		lhs.GetYear() == rhs.GetYear());
+}
+
+bool operator>(const Date& lhs, const Date& rhs) {
+	if (lhs.GetYear() == rhs.GetYear()) {
+		if (lhs.GetMonth() == rhs.GetMonth()) {
+			return lhs.GetDay() > rhs.GetDay();
+		}
+		return lhs.GetMonth() > rhs.GetMonth();
+	}
+	return lhs.GetYear() > rhs.GetYear();
+}
+
+bool operator>=(const Date& lhs, const Date& rhs)
+{
+	return lhs > rhs || lhs == rhs;
+}
+
+bool operator!=(const Date& lhs, const Date& rhs)
+{
+	return lhs != rhs;
 }
 
 //функция parseDate

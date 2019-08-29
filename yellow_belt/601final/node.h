@@ -2,6 +2,8 @@
 #include "date.h"
 #include "token.h"
 #include <string>
+#include <map>
+#include <set>
 
 class Node {
 public:
@@ -10,6 +12,8 @@ public:
 };
 
 class EmptyNode : public Node {
+public:
+	EmptyNode() {}
 	bool Evaluate(const Date& date, const std::string& event) const override;
 };
 
@@ -18,21 +22,25 @@ public:
 	DateComparisonNode(const Comparison& comparison, const Date& date);
 	bool Evaluate(const Date& date, const std::string& event) const override;
 private:
-	Comparison cmp_;
-	Date date_;
+	const Comparison cmp_;
+	const Date date_;
 };
 
 class EventComparisonNode : public Node {
+public:
+	EventComparisonNode(const Comparison& comparison, const std::string& event);
 	bool Evaluate(const Date& date, const std::string& event) const override;
+private:
+	const Comparison cmp_;
+	const std::string event_;
 };
 
 class LogicalOperationNode : public Node {
 public:
-	LogicalOperationNode(const LogicalOperation& logical_opeartion, const std::shared_ptr <Node>& left, const std::shared_ptr <Node>& right) :
-		logic_op_(logical_opeartion), left_(left), right_(right) {}
+	LogicalOperationNode(const LogicalOperation& logical_opeartion, const std::shared_ptr <Node>& left, const std::shared_ptr <Node>& right);
 	bool Evaluate(const Date& date, const std::string& event) const override;
 private:
 	const LogicalOperation logic_op_;
-	std::shared_ptr <Node> left_;
-	std::shared_ptr <Node> right_;
+	const std::shared_ptr <Node> left_;
+	const std::shared_ptr <Node> right_;
 };

@@ -5,7 +5,7 @@
 //объявление интерфейса
 class Date {
 public:
-	Date(int year, int month, int day);
+	Date(const int year, const int month, const int day);
 	int GetMonth() const;
 	int GetYear() const;
 	int GetDay() const;
@@ -19,8 +19,12 @@ private:
 
 std::ostream& operator<<(std::ostream& stream, const Date& date);
 
-bool operator<(Date& lhs, Date& rhs);
-bool operator==(Date& lhs, Date& rhs);
+bool operator<(const Date& lhs, const Date& rhs);
+bool operator==(const Date& lhs, const Date& rhs);
+bool operator>(const Date& lhs, const Date& rhs);
+bool operator<=(const Date& lhs, const Date& rhs);
+bool operator>=(const Date& lhs, const Date& rhs);
+bool operator!=(const Date& lhs, const Date& rhs);
 
 //функция ParseDate
 

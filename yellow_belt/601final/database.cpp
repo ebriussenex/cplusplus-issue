@@ -23,3 +23,12 @@ int Database::RemoveIf(Func& predicate) {
 	db_.erase(db_.begin(), db_.end());
 	return count;
 }
+
+template<typename Func>
+std::vector<Date, std::set<std::string>>  Database::FindIf(Func& predicate) {
+	std::vector<Date, std::set<std::string>> found;
+	for (const auto& item : db_) {
+		if (predicate(item.first, item.second)) found.push_back(item);
+	}
+	return found;
+}
