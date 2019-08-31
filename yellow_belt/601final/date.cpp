@@ -4,7 +4,9 @@
 #include "date.h"
 
 //объявление интерфейса класса
-Date::Date(const int year = 0, const int month = 0, const int day = 0) :
+Date::Date() : year_(1), month_(1), day_(1) {}
+
+Date::Date(const int year, const int month, const int day) :
 	year_(year), month_(month), day_(day) {}
 
 int Date::GetMonth() const
@@ -69,7 +71,7 @@ bool operator>=(const Date& lhs, const Date& rhs)
 
 bool operator!=(const Date& lhs, const Date& rhs)
 {
-	return lhs != rhs;
+	return !(lhs == rhs);
 }
 
 //функция parseDate
@@ -81,4 +83,30 @@ Date ParseDate(std::istream& is)
 		return { year, month, day };
 	}
 	return { year, month, day };
+}
+
+std::ostream& operator<<(std::ostream& stream, const DbRow& dbrow)
+{
+	stream << dbrow.GetDate() << " " << dbrow.GetEvent();
+	return stream;
+}
+
+DbRow::DbRow(const Date& date, const std::string& event) : 
+	date_(date), event_(event) {}
+
+std::string DbRow::GetEvent() const
+{
+	return event_;
+}
+
+Date DbRow::GetDate() const
+{
+	return date_;
+}
+
+bool operator<(const DbRow& lhs, const DbRow& rhs) {
+	if (lhs.GetDate() == rhs.GetDate()) {
+		return lhs.GetEvent() < rhs.GetEvent();
+	}
+	return lhs.GetDate() < rhs.GetDate();
 }

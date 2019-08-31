@@ -3,8 +3,15 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <stdexcept>
+#include <exception>
+#include <algorithm>
+#include <functional>
 
 #include "date.h"
+
+using Db = std::map<Date, std::set<std::string>>;
+using DbLast = std::map<Date, std::vector<std::string>>;
 
 class Database {
 public:
@@ -14,7 +21,10 @@ public:
 	template <typename Func>
 	int RemoveIf(Func& predicate);
 	template <typename Func>
-	std::vector<Date, std::set<std::string>> FindIf(Func& predicate);
+	std::vector<DbRow> FindIf(Func& predicate) const;
+	DbRow Last(const Date& date) const;
 private:
-	std::map <Date, std::set <std::string>> db_;
+	Db db_;
+	DbLast db_for_last_;
+	std::set <DbRow> d_e_;
 };

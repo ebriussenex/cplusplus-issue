@@ -1,5 +1,23 @@
 #include "node.h"
 
+template <typename T>
+bool Compare(const T& lhs, const T& rhs, const Comparison& cmp) {
+	switch (cmp) {
+	case Comparison::Less:
+		return lhs < rhs;
+	case Comparison::Equal:
+		return lhs == rhs;
+	case Comparison::Greater:
+		return lhs > rhs;
+	case Comparison::GreaterOrEqual:
+		return lhs >= rhs;
+	case Comparison::LessOrEqual:
+		return lhs <= rhs;
+	case Comparison::NotEqual:
+		return lhs != rhs;
+	}
+}
+
 bool EmptyNode::Evaluate(const Date& date, const std::string& event) const
 {
 	return true;
@@ -11,21 +29,7 @@ DateComparisonNode::DateComparisonNode(const Comparison& cmp, const Date& date) 
 
 bool DateComparisonNode::Evaluate(const Date& date, const std::string& event) const
 {
-	switch (cmp_) {
-	case Comparison::Less:
-		return date < date_;
-	case Comparison::Equal:
-		return date == date_;
-	case Comparison::Greater:
-		return date > date_;
-	case Comparison::GreaterOrEqual:
-		return date >= date_;
-	case Comparison::LessOrEqual:
-		return date <= date_;
-	case Comparison::NotEqual:
-		return date != date_;
-	}
-
+	return Compare(date, date_, cmp_);
 }
 
 LogicalOperationNode::LogicalOperationNode(const LogicalOperation& logical_opeartion, const std::shared_ptr <Node>& left, const std::shared_ptr <Node>& right) :
@@ -48,18 +52,5 @@ EventComparisonNode::EventComparisonNode(const Comparison& comparison, const std
 
 bool EventComparisonNode::Evaluate(const Date & date, const std::string & event) const
 {
-	switch (cmp_) {
-	case Comparison::Less:
-		return event < event_;
-	case Comparison::Equal:
-		return event == event_;
-	case Comparison::Greater:
-		return event > event_;
-	case Comparison::GreaterOrEqual:
-		return event >= event_;
-	case Comparison::LessOrEqual:
-		return event <= event_;
-	case Comparison::NotEqual:
-		return event != event_;
-	}
+	return Compare(event, event_, cmp_);
 }

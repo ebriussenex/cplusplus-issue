@@ -5,6 +5,9 @@
 #include <map>
 #include <set>
 
+template <typename T>
+bool Compare(const T& lhs, const T& rhs, const Comparison& cmp);
+
 class Node {
 public:
 	Node() {}
