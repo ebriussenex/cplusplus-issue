@@ -35,6 +35,7 @@ Date ParseDate(std::istream& is);
 
 class DbRow {
 public:
+	DbRow() {}
 	DbRow(const Date& date, const std::string& event);
 	std::string GetEvent() const;
 	Date GetDate() const;

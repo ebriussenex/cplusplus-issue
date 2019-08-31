@@ -1,10 +1,50 @@
-#include <iostream>
-#include <stdexcept>
-#include <string>
-#include <iomanip>
-#include <vector>
+#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_DISABLE_PERFCRIT_LOCKS
+#define pass (void)0
 
+#include <limits>
+#include <exception>
+#include <stdexcept>
+#include <cassert>
+#include <cstdint>
+#include <memory>
+
+#include <ios>
+#include <iosfwd>
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <cfenv>
+#include <iomanip>
+
+#include <stack>
+#include <queue>
+#include <deque>
+#include <vector>
+#include <tuple>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
+#include <utility>
+#include <list>
+#include <forward_list>
+#include <bitset>
+#include <algorithm>
+#include <string>
+#include <regex>
+#include <iterator>
+#include <numeric>
+
+#include <cmath>
+#include <cstdio>
+#include <cctype>
+#include <cstring>
+#include <stdio.h>
+#include <stdlib.h>
+#include <chrono>
 #include <functional>
+
 
 #include "date.h"
 #include "database.h"
@@ -15,9 +55,13 @@
 using namespace std;
 
 string ParseEvent(istream& is) {
-	string line;
-	getline(is, line);
-	return line;
+	string event;
+	getline(is, event);
+	for (size_t i = 0; i < event.size(); ++i) {
+		if (event[0] == ' ') event.erase(0, 1);
+		else return event;
+	}
+	return event;
 }
 
 void TestAll();
