@@ -2,7 +2,11 @@
 #include <iostream>
 #include <istream>
 #include <ostream>
+#include <memory>
 //объявление интерфейса
+
+using namespace std;
+
 class Date {
 public:
 	Date();

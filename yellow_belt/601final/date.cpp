@@ -3,6 +3,7 @@
 
 #include "date.h"
 
+using namespace std;
 //объ€вление интерфейса класса
 Date::Date() : year_(1), month_(1), day_(1) {}
 
