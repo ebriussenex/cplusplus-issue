@@ -51,3 +51,5 @@ private:
 std::ostream& operator<<(std::ostream& stream, const DbRow& dbrow);
 
 bool operator<(const DbRow& lhs, const DbRow& rhs);
+
+ostream& operator<<(ostream& os, const pair<Date, string>& de);

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <iomanip>
+#include <sstream>
+#include <string>
 
 #include "date.h"
 
@@ -8,7 +10,14 @@ using namespace std;
 Date::Date() : year_(1), month_(1), day_(1) {}
 
 Date::Date(const int year, const int month, const int day) :
-	year_(year), month_(month), day_(day) {}
+	year_(year), month_(month), day_(day) {
+	if (day > 31 || day < 1) {
+		throw std::logic_error("Wrong date day");
+	}
+	if (month > 12 || month < 1) {
+		throw std::logic_error("Wrong date month");
+	}
+}
 
 int Date::GetMonth() const
 {
@@ -80,9 +89,21 @@ bool operator!=(const Date& lhs, const Date& rhs)
 Date ParseDate(std::istream& is)
 {
 	int year = 0, month = 0, day = 0;
-	if (is >> year && is.ignore(1) && is >> month && is.ignore(1) && is >> day) {
+	string date;
+	is >> date;
+	stringstream ss(date);
+	ss >> year;
+	if (ss.peek() != '-') throw std::invalid_argument("Wrong date format");
+	ss.ignore(1);
+	ss >> month;
+	if (ss.peek() != '-') throw std::invalid_argument("Wrong date format");
+	ss.ignore(1);
+	ss >> day;
+	if(!ss.eof()) throw std::invalid_argument("Wrong date format");
+
+	/*if (is >> year && is.ignore(1) && is >> month && is.ignore(1) && is >> day) {
 		return { year, month, day };
-	}
+	}*/
 	return { year, month, day };
 }
 
@@ -110,4 +131,9 @@ bool operator<(const DbRow& lhs, const DbRow& rhs) {
 		return lhs.GetEvent() < rhs.GetEvent();
 	}
 	return lhs.GetDate() < rhs.GetDate();
+}
+
+ostream& operator<<(ostream& os, const pair<Date, string>& de) {
+	os << de.first << " " << de.second;
+	return os;
 }

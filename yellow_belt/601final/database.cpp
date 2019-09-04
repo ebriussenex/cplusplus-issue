@@ -4,15 +4,25 @@
 
 void Database::Add(const Date& date, const std::string& event)
 {
+<<<<<<< Updated upstream
 	if (!d_e_.count({ date, event })) {
 		db_for_last_[date].push_back(event);
 		d_e_.insert({ date, event });
+=======
+	if (!d_e_[date].count(event)) {
+		db_last_[date].push_back(event);
+		d_e_[date].insert(event);
+>>>>>>> Stashed changes
 	}
 }
 
 void Database::Print(std::ostream& os) const
 {
+<<<<<<< Updated upstream
 	for (const auto& item : db_for_last_) {
+=======
+	for (const auto& item : db_last_) {
+>>>>>>> Stashed changes
 		for (const auto& jtem : item.second) {
 			os << item.first << " " << jtem << std::endl;
 		}
@@ -21,14 +31,72 @@ void Database::Print(std::ostream& os) const
 
 DbRow Database::Last(const Date& date) const
 {
+<<<<<<< Updated upstream
 	if (db_for_last_.empty()) throw std::invalid_argument("No entries");
 	auto it = db_for_last_.upper_bound(date);
 	if (it != db_for_last_.begin()) {
+=======
+	if (db_last_.empty()) throw std::invalid_argument("No entries");
+	auto u_b = db_last_.upper_bound(date);
+	if (u_b != db_last_.end()) {
+		if (date < u_b->first) {
+			if (u_b == db_last_.begin()) throw std::invalid_argument("No entries");
+			else u_b = std::prev(u_b);
+		}
+	}
+	else {
+		if (u_b == db_last_.begin()) throw std::invalid_argument("No entries");
+		u_b = std::prev(u_b);
+	}
+	return {u_b->first, *(prev(u_b->second.end()))};
+	
+	/*if (u_b == db_last_.begin()) throw std::invalid_argument("No entries");
+	else return { std::prev(u_b)->first, std::prev(u_b)->second.back() };*/
+
+	/*if (db_last_.empty()) throw std::invalid_argument("No entries");
+	auto l_b = db_last_.lower_bound(date);
+	if (l_b == db_last_.begin() && db_last_.begin()->first != date) {
+		throw std::invalid_argument("No entries");
+	}
+	else if (l_b == db_last_.begin() && db_last_.begin()->first == date) {
+		return { date, l_b->second.back() };
+	}
+	else if (l_b == db_last_.end()) {
+		auto prev_it = std::prev(l_b);
+		return { prev_it->first, prev_it->second.back() };
+	}
+	else if (l_b->first == date) {
+		return { date, l_b->second.back() };
+	}
+	else {
+		auto prev_it = std::prev(l_b);
+		return { prev_it->first, prev_it->second.back() };
+	}*/
+	
+	/*if (db_last_.empty()) throw std::invalid_argument("No entries");
+	const auto l_b = db_last_.lower_bound(date);
+	if (l_b == db_last_.begin() && l_b->first != date) {
+		throw std::invalid_argument("No entries");
+	}
+	else if (l_b->first == date) {
+		const auto last_event = std::prev(l_b->second.end());
+		return { l_b->first, *last_event };
+	}
+	const auto last_row = std::prev(l_b);
+	const auto last_event = std::prev(l_b->second.end());
+	return { last_row->first, *last_event };*/
+	
+	
+	/*	if (db_last_.empty()) throw std::invalid_argument("No entries");
+	auto it = db_last_.upper_bound(date);
+	if (it != db_last_.begin()) {
+>>>>>>> Stashed changes
 		auto itt = std::prev(it);
 		if (!itt->second.empty()) {
 			return{ itt->first, itt->second.back() };
 		}
 	}
+<<<<<<< Updated upstream
 	else throw std::invalid_argument("No entries");
 	/*if (it == db_for_last_.begin() && date != it->first) {
 		throw std::invalid_argument("No entries");
@@ -105,3 +173,7 @@ DbRow Database::Last(const Date& date) const
 //}
 //
 
+=======
+	else throw std::invalid_argument("No entries");*/
+}
+>>>>>>> Stashed changes
