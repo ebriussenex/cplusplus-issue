@@ -10,7 +10,7 @@
 template <typename T>
 class Deque {
 public:
-	Deque() {}
+	Deque() = default;
 	bool Empty() const;
 	size_t Size() const;
 	void PushFront(const T& x);
@@ -23,7 +23,7 @@ public:
 	const T& Back() const;
 	T& At(const size_t& index);
 	T& At(const size_t& index) const;
-	void Print() const;
+	/*void Print() const;*/
 private:
 	std::vector <T> v_front_;
 	std::vector <T> v_back_;
@@ -32,8 +32,7 @@ private:
 template<typename T>
 bool Deque<T>::Empty() const
 {
-	if (v_front_.empty() && v_back_.empty()) return true;
-	return false;
+	return v_front_.empty() && v_back_.empty();
 }
 
 template<typename T>
@@ -55,13 +54,17 @@ void Deque<T>::PushBack(const T& x) {
 template<typename T>
 T& Deque<T>::operator[](const size_t& index)
 {
-	return At(index);
+	if (index >= v_front_.size() + v_back_.size()) throw std::out_of_range("Index is out of range");
+	if (index < v_front_.size()) return v_front_[v_front_.size() - index - 1];
+	else return v_back_[index - v_front_.size()];
 }
 
 template<typename T>
 const T& Deque<T>::operator[](const size_t& index) const
 {
-	return At(index);
+	if (index >= v_front_.size() + v_back_.size()) throw std::out_of_range("Index is out of range");
+	if (index < v_front_.size()) return v_front_[v_front_.size() - index - 1];
+	else return v_back_[index - v_front_.size()];
 }
 
 template<typename T>
@@ -107,28 +110,30 @@ const T& Deque<T>::Back() const
 template<typename T>
 T& Deque<T>::At(const size_t& index)
 {
-	if (index > v_front_.size() + v_back_.size() - 1) throw std::out_of_range("Index is out of range");
+	if (index >= v_front_.size() + v_back_.size()) throw std::out_of_range("Index is out of range");
 	if (index < v_front_.size()) return v_front_[v_front_.size() - index - 1];
-	return v_back_[index - v_front_.size()];
+	else return v_back_[index - v_front_.size()];
 }
 
 template<typename T>
 T& Deque<T>::At(const size_t& index) const
 {
-	return At(index);
+	if (index >= v_front_.size() + v_back_.size()) throw std::out_of_range("Index is out of range");
+	if (index < v_front_.size()) return v_front_[v_front_.size() - index - 1];
+	else return v_back_[index - v_front_.size()];
 }
 
-template<typename T>
-void Deque<T>::Print() const
-{
-	for (auto it = v_front_.end(); it != v_front_.begin(); it--) {
-		std::cout << *it << " ";
-	}
-	for (auto it = v_back_.begin(); it != v_back_.end(); it++) {
-		std::cout << *it << " ";
-	}
-	std::cout << std::endl;
-}
+//template<typename T>
+//void Deque<T>::Print() const
+//{
+//	for (auto it = v_front_.end(); it != v_front_.begin(); it--) {
+//		std::cout << *it << " ";
+//	}
+//	for (auto it = v_back_.begin(); it != v_back_.end(); it++) {
+//		std::cout << *it << " ";
+//	}
+//	std::cout << std::endl;
+//}
 
 void TestTable() {
 
@@ -274,7 +279,7 @@ void TestTable() {
 
 	//---------------------------------
 
-	deque.Print();
+	/*deque.Print();*/
 
 	//-------------------------------------------
 
