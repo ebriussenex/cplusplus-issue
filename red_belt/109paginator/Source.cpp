@@ -106,7 +106,7 @@ private:
 
 template <typename C>
 auto Paginate(C& c, size_t page_size) {
-	return Paginator(begin(c), end(c), page_size);
+	return Paginator(c.begin(), c.end(), page_size);
 }
 
 void TestPageCounts() {
