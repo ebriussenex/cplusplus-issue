@@ -45,6 +45,22 @@ std::ostream& operator <<(std::ostream& os, const std::map<K, V>& m) {
 	return os << "}";
 }
 
+template<class T>
+std::ostream& operator <<(std::ostream& os, const std::vector<T>& s) {
+	os << "{";
+	bool first = true;
+	for (const auto& x : s) {
+		if (!first) {
+			os << ", ";
+		}
+		first = false;
+		os << x;
+	}
+	return os << "}";
+}
+
+
+
 template<class T, class U>
 void AssertEqual(const T& t, const U& u, const std::string& hint) {
 	if (t != u) {

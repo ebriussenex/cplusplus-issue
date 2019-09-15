@@ -50,17 +50,17 @@ template<typename Iterator>
 class IteratorRange {
 public:
 	IteratorRange() {}
-	IteratorRange(const Iterator& first, const Iterator& last) :
-		last_(last), first_(first), size_(std::static_cast<size_t>std::distance(first, last)) {
+	IteratorRange(Iterator first, Iterator last) :
+		first_(first), last_(last), size_(std::distance(first, last)) {
 	}
-	Iterator begin() {
+	Iterator begin() const {
 		return first_;
 	}
-	Iterator end() {
+	Iterator end() const {
 		return last_;
 	}
 
-	Iterator size() {
+	Iterator size() const {
 		return size_;
 	}
 private:
@@ -73,8 +73,8 @@ template <typename Iterator>
 class Paginator {
 public:
 	Paginator<Iterator>(const Iterator& begin, const Iterator& end, const size_t& page_size)/* :
-		begin_(begin), end_(end), page_size_(page_size) */{
-		if (std::static_cast<size_t>std::distance(begin, end) <= page_size_) {
+		begin_(begin), end_(end), page_size_(page_size) */ {
+		if (std::distance(begin, end) <= page_size_) {
 			pages_.push_back({ begin, end });
 		}
 		else {
@@ -104,10 +104,9 @@ private:
 };
 
 
-
 template <typename C>
 auto Paginate(C& c, size_t page_size) {
-	return Paginator{ c.begin(), c.end(), page_size };
+	return Paginator(begin(c), end(c), page_size);
 }
 
 void TestPageCounts() {
