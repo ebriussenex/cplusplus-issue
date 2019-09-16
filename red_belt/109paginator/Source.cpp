@@ -82,26 +82,28 @@ private:
 template <typename Iterator>
 class Paginator {
 public:
-	Paginator<Iterator>(const Iterator& begin, const Iterator& end, const size_t& page_size)/* :
-		begin_(begin), end_(end), page_size_(page_size) */ {
-		if (std::distance(begin, end) <= page_size_) {
-			pages_.push_back({ begin, end });
+	Paginator<Iterator>(const Iterator& begin, const Iterator& end, const size_t& page_size) {
+		auto page_size_ = page_size;
+		auto page_begin = begin;
+		auto page_end = page_begin;
+		while (page_end < end) {
+			size_t div = end - page_begin;
+			auto diff = std::min(page_size, div);
+			page_end = page_begin + diff;
+			pages_.push_back({ page_begin, page_end });
+			page_begin = page_end;
 		}
-		else {
-			auto page_begin = begin;
-			auto page_end = page_begin;
-			while (page_begin + page_size >= end) {
-				auto page_end = page_begin + page_size;
-				pages_.push_back({ page_begin, page_end });
-				page_begin = page_end;
-			}
-			pages_.push_back({ page_begin, end });
-			/*auto page_end = begin + page_size;
-			if (page_end > end) page_end = end;
-			while (page_end <= end) {
-				pahes.push_back({ page_begin, page_end });
-			}*/
+		/*while (page_begin + page_size < end) {
+			page_end = page_begin + page_size;
+			pages_.push_back({ page_begin, page_end });
+			page_begin = page_end;
 		}
+		pages_.push_back({ page_begin, end });*/
+		/*auto page_end = begin + page_size;
+		if (page_end > end) page_end = end;
+		while (page_end <= end) {
+			pahes.push_back({ page_begin, page_end });
+		}*/
 	}
 	auto begin() const {
 		return pages_.begin();
@@ -114,9 +116,6 @@ public:
 		return pages_.size();
 	}
 private:
-	Iterator begin_;
-	Iterator end_;
-	size_t page_size_;
 	std::vector<IteratorRange<Iterator>> pages_;
 };
 
@@ -150,7 +149,6 @@ void TestLooping() {
 		}
 		os << '\n';
 	}
-
 	ASSERT_EQUAL(os.str(), "1 2 3 4 5 6 \n7 8 9 10 11 12 \n13 14 15 \n");
 }
 
