@@ -38,3 +38,38 @@ string GenerateText(){
 	return text;
 }
 ```
+We can see the difference when checking out our function
+If we use our function where we copying files *ReadStrings* and check it with this code in main:
+```c++
+for (const std::string& s : ReadStringsMove(std::cin)) {
+		std::cout << s << "\n";
+}
+```
+We'll get the results
+```
+input: "a b c"
+output:
+	s = a
+	s = a, strings.back =a
+	s = b
+	s = b, strings.back =b
+	s = c
+	s = c, strings.back =c
+```
+If we use *ReadStringsMove* instead
+```c++
+for (const std::string& s : ReadStringsMove(std::cin)) {
+		std::cout << s << "\n";
+}
+```
+The result would be
+```
+input: "a b c"
+output: 
+	s = a
+	s = , strings.back =a
+	s = b
+	s = , strings.back =b
+	s = c
+	s = , strings.back =c
+```
