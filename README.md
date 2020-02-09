@@ -1,6 +1,6 @@
 # Secret
-##The example of how does "move" works.
-    First of all you need to add "utility" library by '#include <utility>'
+## The example of how does "move" works.
+    First of all you need to add "utility" library by `#include <utility>`
 ```c++
 vector<string> ReadStrings(istream& stream){
     vector <string> strings;
