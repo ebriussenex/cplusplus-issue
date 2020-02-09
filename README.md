@@ -13,7 +13,7 @@ vector<string> ReadStrings(istream& stream){
     return strings;
 }
 ```
-using instead `move(s)`
+Using instead `move(s)`
 ```c++
 vector<string> ReadStringsMove(istream& stream){
 	vector <string> strings;
@@ -24,5 +24,17 @@ vector<string> ReadStringsMove(istream& stream){
 		cout << "s = " << s << ", strings.back =" << strings.back() << "\n";
 	}
 	return strings;
+}
+```
+Using text generation function to profile the programm
+```c++
+string GenerateText(){
+	const int SIZE = 1000000000;
+	const int WORD_LENGTH = 100000;
+	string text(SIZE, 'a');
+	for(int i = WORD_LENGTH; i < SIZE; i += WORD_LENGTH){
+		text[i] = ' ';
+	}
+	return text;
 }
 ```
