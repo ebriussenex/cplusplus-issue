@@ -73,3 +73,35 @@ output:
 	s = c
 	s = , strings.back =c
 ```
+Add in *main*
+```c++
+const std::string text = GenerateText();
+{
+		LOG_DURATION("with move");
+		std::istringstream stream(text);
+		ReadStrings(stream, true);
+	}{
+		LOG_DURATION("without move");
+		std::istringstream stream(text);
+		ReadStrings(stream, false);
+	}
+```
+we add a *flag* argument in *ReadStrings* to profile both with move and without
+```c++
+std::vector<std::string> ReadStrings(std::istream& stream, bool flag) {
+	std::vector <std::string> strings;
+	std::string s;
+	if (flag) {
+		while (stream >> s) strings.push_back(move(s));
+	}
+	else {
+		while (stream >> s) strings.push_back(s);
+	}
+	return strings;
+}
+```
+Result
+```
+with move: 2696 ms
+without move: 2484 ms
+```
